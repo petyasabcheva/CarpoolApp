@@ -66,7 +66,7 @@ const TripsTable = ({ filteredTrips, setFilteredTrips }) => {
               <td>{trip.seatsAvailable - trip.participants.length}</td>
               <td>
                 {trip.luggageSpace && <FaSuitcase title="С възможност за багаж" />}
-                {trip.smokingAllowed && <FaSmokingBan title="Пушенето забранено" />}
+                {!trip.smokingAllowed && <FaSmokingBan title="Пушенето забранено" />}
                 {trip.airConditioning && <FaSnowflake title="Климатик" />}
               </td>
               <td>

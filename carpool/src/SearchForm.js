@@ -96,7 +96,7 @@ const SearchForm = ({ onSearch }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label" htmlFor="smokingAllowed">
-              Без пушене в колата
+              Пушенето разрешено
             </label>
           </div>
         </div>

@@ -2,6 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 import { getAuth, signOut } from 'firebase/auth';
+import {FaCarSide } from 'react-icons/fa';
+
+
 
 const Navbar = () => {
     const { user, setUser } = useUser();
@@ -20,7 +23,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">Carpool</Link>
+                <Link className="navbar-brand" to="/">Carpool <FaCarSide/></Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
