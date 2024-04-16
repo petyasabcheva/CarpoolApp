@@ -8,6 +8,7 @@ function SignUp() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const auth = getAuth();
 
@@ -18,8 +19,9 @@ function SignUp() {
                 setUser(user);
                 navigate('/');
             })
-            .catch(error => {
-                console.error('Error creating user:', error);
+            .catch(err => {
+                setError('Failed to login: ' + err.message);
+                console.error('Error creating user:', err);
             });
     };
 
@@ -38,6 +40,7 @@ function SignUp() {
                 <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <button type="submit" className="btn btn-primary">Регистрация</button>
+            {error && <div className="alert alert-danger">{error}</div>}
         </form>
     );
 }

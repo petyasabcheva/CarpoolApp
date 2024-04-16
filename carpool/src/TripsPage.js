@@ -1,46 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { fetchTrips } from './api';
 import TripsTable from './TripsTable';
 import SearchForm from './SearchForm';
+import { fetchTrips } from './api';
 
 const TripsPage = () => {
-    const [trips, setTrips] = useState([]);
-    const [filteredTrips, setFilteredTrips] = useState([]);
+  const [trips, setTrips] = useState([]);
+  const [filteredTrips, setFilteredTrips] = useState([]);
 
-    useEffect(() => {
-        const loadData = async () => {
-            const allTrips = await fetchTrips();
-            setTrips(allTrips);
-            setFilteredTrips(allTrips);
-        };
+  useEffect(() => {
+    loadData();
+  }, []);
 
-        loadData();
-    }, []);
+  const loadData = async () => {
+    const allTrips = await fetchTrips();
+    setTrips(allTrips);
+    setFilteredTrips(allTrips);
+  };
 
-    const handleSearch = (searchParams) => {
-        const results = trips.filter(trip => {
-            const matchStartLocation = !searchParams.startLocation || (trip.start && trip.start.includes(searchParams.startLocation));
-            const matchEndLocation = !searchParams.endLocation || (trip.end && trip.end.includes(searchParams.endLocation));
-            const matchDate = !searchParams.travelDate || (trip.date && new Date(trip.date).toLocaleDateString() === new Date(searchParams.travelDate).toLocaleDateString());
-            const matchLuggage = searchParams.luggageSpace === undefined || (trip.luggageSpace !== undefined && trip.luggageSpace === searchParams.luggageSpace);
-            const matchSmoking = searchParams.smokingAllowed === undefined || (trip.smokingAllowed !== undefined && trip.smokingAllowed === searchParams.smokingAllowed);
-            const matchAirConditioning = searchParams.airConditioning === undefined || (trip.airConditioning !== undefined && trip.airConditioning === searchParams.airConditioning);
+  const handleSearch = (searchParams) => {
+    let results = trips;
 
-            return matchStartLocation && matchEndLocation && matchDate && matchLuggage && matchSmoking && matchAirConditioning;
-        });
+    if (searchParams.startLocation) {
+      results = results.filter(trip => trip.start.includes(searchParams.startLocation));
+    }
+    if (searchParams.endLocation) {
+      results = results.filter(trip => trip.end.includes(searchParams.endLocation));
+    }
+    if (searchParams.travelDate) {
+      results = results.filter(trip => new Date(trip.date).toLocaleDateString() === new Date(searchParams.travelDate).toLocaleDateString());
+    }
 
-        setFilteredTrips(results);
-    };
+    // Filter by amenities
+    if (searchParams.luggageSpace) {
+      results = results.filter(trip => trip.luggageSpace === searchParams.luggageSpace);
+    }
+    if (searchParams.airConditioning) {
+      results = results.filter(trip => trip.airConditioning === searchParams.airConditioning);
+    }
+    if (searchParams.smokingAllowed) {
+      results = results.filter(trip => trip.smokingAllowed === searchParams.smokingAllowed);
+    }
 
+    setFilteredTrips(results);
+  };
 
-    return (
-        <div>
-            <SearchForm onSearch={handleSearch} />
-            <div className="container mt-3">
+  return (
+    <div>
+      <SearchForm onSearch={handleSearch} />
+      <div className="container mt-3">
                 <TripsTable filteredTrips={filteredTrips} setFilteredTrips={setFilteredTrips} />
             </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default TripsPage;

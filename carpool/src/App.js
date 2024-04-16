@@ -7,6 +7,7 @@ import EditTripPage from './EditTripPage';
 import TripsPage from './TripsPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function App() {
   return (
